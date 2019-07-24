@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -21,11 +22,12 @@ func ErrorsForbidden(c *gin.Context) {
 }
 
 func ErrorsUserExist(c *gin.Context) {
+	fmt.Println("=-==-=-=-==-=-=-=-=-=-=-=-")
 	respondWithError(c, http.StatusForbidden, "user is exist")
 }
 
 func ErrorsInvalidToken(c *gin.Context) {
-	// fmt.Println("=-==-=-=-==-=-=-=-=-=-=-=-")
+	//
 	respondWithError(c, http.StatusUnauthorized, "Invalid API token")
 }
 

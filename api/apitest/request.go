@@ -8,14 +8,23 @@ import (
 	"net/http/httptest"
 )
 
-func requestJSON(method string, uri string, param interface{}) (int, []byte) {
+type requestParam struct {
+	auth   string
+	body   interface{}
+	uri    string
+	method string
+}
+
+func (rqParam *requestParam) requestJSON() (int, []byte) {
 	router := api.SetupRouter()
 	// 将参数转化为json比特流
-	jsonByte, _ := json.Marshal(param)
+	jsonByte, _ := json.Marshal(rqParam.body)
 
 	// 构造请求，json数据以请求body的形式传递
-	req := httptest.NewRequest(method, uri, bytes.NewReader(jsonByte))
-
+	req := httptest.NewRequest(rqParam.method, rqParam.uri, bytes.NewReader(jsonByte))
+	if len(rqParam.auth) > 0 {
+		req.Header.Set("Authorization", rqParam.auth)
+	}
 	// 初始化响应
 	w := httptest.NewRecorder()
 
@@ -32,28 +41,17 @@ func requestJSON(method string, uri string, param interface{}) (int, []byte) {
 	return w.Code, body
 }
 
-func postJSON(uri string, param interface{}) (int, []byte) {
-	return requestJSON("POST", uri, param)
+func (rqParam *requestParam) postJSON() (int, []byte) {
+	rqParam.method = "POST"
+	return rqParam.requestJSON()
 }
 
-func putJSON(uri string, param interface{}) (int, []byte) {
-	return requestJSON("PUT", uri, param)
+func (rqParam *requestParam) putJSON() (int, []byte) {
+	rqParam.method = "PUT"
+	return rqParam.requestJSON()
 }
 
-func requestHeader(method string, uri string, param string) (int, []byte) {
-	router := api.SetupRouter()
-	req := httptest.NewRequest(method, uri, nil)
-	req.Header.Set("Authorization", param)
-	w := httptest.NewRecorder()
-	router.ServeHTTP(w, req)
-	// 提取响应
-	result := w.Result()
-	defer result.Body.Close()
-	// 读取响应body
-	body, _ := ioutil.ReadAll(result.Body)
-	return w.Code, body
-}
-
-func putHeader(uri string, param string) (int, []byte) {
-	return requestHeader("PUT", uri, param)
+func (rqParam *requestParam) getJSON() (int, []byte) {
+	rqParam.method = "GET"
+	return rqParam.requestJSON()
 }

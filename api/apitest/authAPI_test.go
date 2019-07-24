@@ -19,7 +19,9 @@ const tokenURI = "/api/v1/token"
 func TestGenerateToken(t *testing.T) {
 	user := createTestUser()
 	userLg := data.UserLogin{Username: user.Username, PasswordHash: "123456"}
-	code, body := postJSON(tokenURI, userLg)
+
+	rqp := requestParam{uri: tokenURI, body: userLg}
+	code, body := rqp.postJSON()
 
 	assert.Equal(t, http.StatusOK, code)
 	response := &tokenResponse{}
@@ -28,7 +30,8 @@ func TestGenerateToken(t *testing.T) {
 	}
 
 	userLg = data.UserLogin{Username: user.Username, PasswordHash: "12345"}
-	code, body = postJSON(tokenURI, userLg)
+	rqp.body = userLg
+	code, body = rqp.postJSON()
 	assert.NotEqual(t, http.StatusOK, code)
 }
 
@@ -36,15 +39,16 @@ func TestUpdateToken(t *testing.T) {
 	user := createTestUser()
 	token := data.JwtToken{}
 	token.GenerateToken(user.UserRegister.UserLogin)
-
-	code, body := putHeader(tokenURI, token.RefreshTokenStr)
+	rqp := requestParam{uri: tokenURI, auth: token.RefreshTokenStr}
+	code, body := rqp.putJSON()
 	assert.Equal(t, http.StatusOK, code)
 	response := &token.AccessToken
 	if err := json.Unmarshal(body, response); err != nil {
 		t.Errorf("解析响应出错，err:%v\n", err)
 	}
 
-	code, body = putHeader(tokenURI, token.AccessTokenStr)
+	rqp.auth = token.AccessTokenStr
+	code, body = rqp.putJSON()
 	assert.Equal(t, http.StatusUnauthorized, code)
 }
 
