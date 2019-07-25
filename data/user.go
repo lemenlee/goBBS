@@ -34,19 +34,20 @@ type UserInfo struct {
 	Location   string `gorm:"type:varchar(64)"`
 	AboutMe    string
 	AvatarHash string `gorm:"type:varchar(64)"`
+	Posts      []Post
 }
 
 const salt string = "kvdevsalt"
 
 //CreateUserDB 创建用户
-func (userRG *UserRegister) CreateUserDB() error {
+func (user *User) CreateUserDB() error {
 	Db.CreateTable(&User{})
-	if len(userRG.PasswordHash) < 1 {
+	if len(user.PasswordHash) < 1 {
 		return errors.New("passwordHash length error")
 	}
 	role := Role{}
 	Db.Where("name = ?", "User").First(&role)
-	user := User{UserRegister: *userRG}
+	// user := User{UserRegister: *userRG}
 	user.RoleID = role.ID
 	db := Db.Create(&user)
 

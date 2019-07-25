@@ -22,7 +22,7 @@ func UserRoutes(route *gin.RouterGroup) {
 //CreateUser 注册用户
 func createUser(c *gin.Context) {
 	// println("test createuser")
-	user := data.UserRegister{}
+	user := data.User{}
 	err := c.ShouldBindJSON(&user)
 	if err != nil {
 		fmt.Println(err)
@@ -31,6 +31,7 @@ func createUser(c *gin.Context) {
 		_, err := data.FindUser(user.Username)
 		if err != nil {
 			user.GeneratePasswordHash()
+
 			user.CreateUserDB()
 			c.JSON(http.StatusOK, user)
 		} else {

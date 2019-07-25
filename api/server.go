@@ -6,6 +6,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+var crusername string
+
 //SetupRouter 初始化router
 func SetupRouter() *gin.Engine {
 	gin.DisableConsoleColor()
@@ -20,6 +22,7 @@ func SetupRouter() *gin.Engine {
 		{
 			TokenRoutes(v1)
 			UserRoutes(v1)
+			PostRoutes(v1)
 		}
 	}
 	return r
@@ -29,8 +32,8 @@ func jwtTokenAuth() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		tokenStr := c.GetHeader("Authorization")
 		accessToken := data.AccessToken{AccessTokenStr: tokenStr}
-		username := accessToken.ValidToken()
-		if len(username) == 0 {
+		crusername = accessToken.ValidToken()
+		if len(crusername) == 0 {
 			ErrorsInvalidToken(c)
 		}
 	}

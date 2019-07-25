@@ -2,6 +2,7 @@ package apitest
 
 import (
 	"bbs/api"
+	"bbs/data"
 	"bytes"
 	"encoding/json"
 	"io/ioutil"
@@ -54,4 +55,28 @@ func (rqParam *requestParam) putJSON() (int, []byte) {
 func (rqParam *requestParam) getJSON() (int, []byte) {
 	rqParam.method = "GET"
 	return rqParam.requestJSON()
+}
+
+func (rqParam *requestParam) deleteJSON() (int, []byte) {
+	rqParam.method = "DELETE"
+	return rqParam.requestJSON()
+}
+
+func createTestUser() data.User {
+	data.Db.Delete(&data.User{})
+	user := data.CreateUser("lemon@qq.com", "123456", "lemonlee")
+	user.GeneratePasswordHash()
+	user.CreateUserDB()
+	return user
+}
+
+func createTestUserAndToken() (data.User, string) {
+	data.Db.Delete(&data.User{})
+	user := data.CreateUser("lemon@qq.com", "123456", "lemonlee")
+	user.GeneratePasswordHash()
+	user.CreateUserDB()
+
+	token := data.JwtToken{}
+	token.GenerateToken(user.UserLogin)
+	return user, token.AccessTokenStr
 }

@@ -5,11 +5,11 @@ type Permission uint
 
 //权限定义
 const (
-	Follow   Permission = 1
-	Comment  Permission = 2
-	Write    Permission = 4
-	Moderate Permission = 8
-	Admin    Permission = 16
+	Follow     Permission = 1
+	CommentPer Permission = 2
+	Write      Permission = 4
+	Moderate   Permission = 8
+	Admin      Permission = 16
 )
 
 //Role 定义用户角色权限
@@ -42,9 +42,9 @@ func (r *Role) hasPermission(perm Permission) bool {
 // 	return scope.SetColumn("ID", uuid.String())
 // }
 
-var roles = map[string][]Permission{"User": {Follow, Comment, Write},
-	"Moderator":     {Follow, Comment, Write, Moderate},
-	"Administrator": {Follow, Comment, Write, Moderate, Admin}}
+var roles = map[string][]Permission{"User": {Follow, CommentPer, Write},
+	"Moderator":     {Follow, CommentPer, Write, Moderate},
+	"Administrator": {Follow, CommentPer, Write, Moderate, Admin}}
 
 //InsertRoles 初始化角色权限
 func InsertRoles() {

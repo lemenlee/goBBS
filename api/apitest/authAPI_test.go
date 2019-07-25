@@ -51,11 +51,3 @@ func TestUpdateToken(t *testing.T) {
 	code, body = rqp.putJSON()
 	assert.Equal(t, http.StatusUnauthorized, code)
 }
-
-func createTestUser() data.User {
-	data.Db.Delete(&data.User{})
-	user := data.CreateUser("lemon@qq.com", "123456", "lemonlee")
-	user.GeneratePasswordHash()
-	user.CreateUserDB()
-	return user
-}
