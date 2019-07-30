@@ -34,5 +34,9 @@ func init() {
 	if err != nil {
 
 	}
+
+	Db.AutoMigrate(&User{}, &Follows{}, &Role{}, &Post{}, &Comment{})
+	Db.LogMode(true)
+
 	return
 }

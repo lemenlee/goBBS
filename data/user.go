@@ -5,6 +5,7 @@ import (
 	"encoding/hex"
 	"errors"
 	"io"
+	"time"
 )
 
 //User Model
@@ -12,6 +13,16 @@ type User struct {
 	Model
 	UserRegister
 	UserInfo
+	Followers []*User `gorm:"many2many:follows;jointable_foreignkey:follower_id;association_jointable_foreignkey:followed_id"`
+	Followed  []*User `gorm:"many2many:follows;jointable_foreignkey:followed_id;association_jointable_foreignkey:follower_id"`
+	Posts     []Post
+}
+
+//Follows 关注表
+type Follows struct {
+	FollowerID string    `gorm:"primary_key"`
+	FollowedID string    `gorm:"primary_key"`
+	CreatedAt  time.Time `gorm:"default:CURRENT_TIMESTAMP"`
 }
 
 //UserLogin 用户登录信息
@@ -35,6 +46,8 @@ type UserInfo struct {
 	AboutMe    string
 	AvatarHash string `gorm:"type:varchar(64)"`
 	Posts      []Post
+
+	// Followed   []*User `gorm:"many2many:follows; association_jointable_foreignkey:follower_id;jointable_foreignkey:followed_id;"`
 }
 
 const salt string = "kvdevsalt"
@@ -47,11 +60,47 @@ func (user *User) CreateUserDB() error {
 	}
 	role := Role{}
 	Db.Where("name = ?", "User").First(&role)
-	// user := User{UserRegister: *userRG}
 	user.RoleID = role.ID
-	db := Db.Create(&user)
+	err := Db.Create(&user).Error
+	if err != nil {
+		return err
+	}
 
-	return db.Error
+	return err
+}
+
+//FollowedUser 关注用户
+func (user *User) FollowedUser(followed User) error {
+	return Db.Model(&user).Association("Followed").Append(&followed).Error
+}
+
+//UnFollowUser 取消关注
+func (user *User) UnFollowUser(followed User) error {
+	return Db.Model(&user).Association("Followed").Delete(&followed).Error
+}
+
+//FollowerCount  粉丝数量
+func (user *User) FollowerCount() int {
+	return Db.Model(&user).Association("Followers").Count()
+}
+
+//FollowedCount 关注数量
+func (user *User) FollowedCount() int {
+	return Db.Model(&user).Association("Followed").Count()
+}
+
+//GetFollowers 获取粉丝列表
+func (user *User) GetFollowers() ([]*User, error) {
+	users := []*User{}
+	err := Db.Model(&user).Related(&users, "Followers").Error
+	return users, err
+}
+
+//GetFollowed 获取关注列表
+func (user *User) GetFollowed() ([]*User, error) {
+	users := []*User{}
+	err := Db.Model(&user).Related(&users, "Followed").Error
+	return users, err
 }
 
 //FindUser 通过username查询用户

@@ -132,3 +132,23 @@ func TestUpdatePost(t *testing.T) {
 	assert.NotEqual(t, http.StatusOK, code)
 
 }
+
+func TestPostCommentAPI(t *testing.T) {
+	user, token := createTestUserAndToken()
+	post := data.CreateTestPost(user)
+	post.GeneratePost(user)
+	for i := 0; i < 10; i++ {
+		comment := data.CreateTestComment()
+		comment.CreateComment(user, post)
+	}
+	rqparm := requestParam{uri: postURI + post.ID + "/comments", auth: token}
+	code, body := rqparm.getJSON()
+	assert.Equal(t, http.StatusOK, code)
+	response := &[]data.Comment{}
+	if err := json.Unmarshal(body, response); err != nil {
+		t.Error("解析错误")
+	}
+	if len(*response) != 10 {
+		t.Error("comments nums not true")
+	}
+}

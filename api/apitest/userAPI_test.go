@@ -70,3 +70,25 @@ func TestUpdateUser(t *testing.T) {
 	}
 	fmt.Printf("response:%v\n", string(body))
 }
+
+func TestGetUserComment(t *testing.T) {
+	// user := createTestUser()
+	user, token := createTestUserAndToken()
+	post := data.CreateTestPost(user)
+	post.GeneratePost(user)
+	for i := 0; i < 10; i++ {
+		comment := data.CreateTestComment()
+		comment.CreateComment(user, post)
+	}
+
+	rqparm := requestParam{uri: userURI + user.ID + "/comments", auth: token}
+	code, body := rqparm.getJSON()
+	assert.Equal(t, http.StatusOK, code)
+	response := &[]data.Comment{}
+	if err := json.Unmarshal(body, response); err != nil {
+		t.Error("解析错误")
+	}
+	if len(*response) != 10 {
+		t.Error("comments nums not true")
+	}
+}

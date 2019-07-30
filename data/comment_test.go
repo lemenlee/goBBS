@@ -11,7 +11,6 @@ func TestCreateComment(t *testing.T) {
 	if err != nil {
 		t.Errorf("create comment fail")
 	}
-
 	comment.Body = "he"
 	err = comment.CreateComment(user, post)
 	if err == nil {
@@ -110,10 +109,4 @@ func TestDeleteComment(t *testing.T) {
 		t.Error("delete comment error")
 	}
 
-}
-
-func CreateTestComment() Comment {
-	comment := Comment{}
-	comment.Body = "this is a fake comment"
-	return comment
 }

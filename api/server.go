@@ -2,6 +2,7 @@ package api
 
 import (
 	"bbs/data"
+	"fmt"
 
 	"github.com/gin-gonic/gin"
 )
@@ -15,7 +16,7 @@ func SetupRouter() *gin.Engine {
 	// gin.DefaultWriter = io.MultiWriter(f)
 
 	r := gin.Default()
-	r.NoRoute(ErrorsPageNotFound)
+	// r.NoRoute(ErrorsPageNotFound)
 	apiRoute := r.Group("/api")
 	{
 		v1 := apiRoute.Group("/v1")
@@ -23,6 +24,7 @@ func SetupRouter() *gin.Engine {
 			TokenRoutes(v1)
 			UserRoutes(v1)
 			PostRoutes(v1)
+			CommentRoutes(v1)
 		}
 	}
 	return r
@@ -31,6 +33,7 @@ func SetupRouter() *gin.Engine {
 func jwtTokenAuth() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		tokenStr := c.GetHeader("Authorization")
+		fmt.Printf("token: %s", tokenStr)
 		accessToken := data.AccessToken{AccessTokenStr: tokenStr}
 		crusername = accessToken.ValidToken()
 		if len(crusername) == 0 {

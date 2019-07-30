@@ -63,8 +63,10 @@ func TestFindUserAllPost(t *testing.T) {
 	post.GeneratePost(user)
 	post.GeneratePost(user)
 	posts, err := FindUserAllPost(user)
+	user.Posts = posts
 	if err != nil || len(posts) != 5 {
-		t.Errorf("find user all posts error")
+		t.Errorf("find user all posts error\n")
+		// t.Error(len(user.Posts))
 	}
 }
 

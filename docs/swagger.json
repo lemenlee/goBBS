@@ -1,0 +1,767 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a sample server BBS server.",
+        "title": "BBS Example API",
+        "contact": {},
+        "license": {},
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/api/v1",
+    "paths": {
+        "/comment": {
+            "put": {
+                "security": [
+                    {
+                        "JWTAuth": []
+                    }
+                ],
+                "description": "通过comment模型，更新评论",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "comment"
+                ],
+                "summary": "更新评论接口",
+                "parameters": [
+                    {
+                        "description": "Comment",
+                        "name": "post",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/data.Comment"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/data.Comment"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "JWTAuth": []
+                    }
+                ],
+                "description": "通过comment模型，发布评论",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "comment"
+                ],
+                "summary": "发布评论接口",
+                "parameters": [
+                    {
+                        "description": "Comment",
+                        "name": "post",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/data.Comment"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/data.Comment"
+                        }
+                    }
+                }
+            }
+        },
+        "/comment/{commentid}": {
+            "get": {
+                "security": [
+                    {
+                        "JWTAuth": []
+                    }
+                ],
+                "description": "通过commentid，获取评论",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "comment"
+                ],
+                "summary": "获取指定评论接口",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "commentid",
+                        "name": "commentid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/data.Comment"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "JWTAuth": []
+                    }
+                ],
+                "description": "通过commentid，删除评论",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "comment"
+                ],
+                "summary": "发布评论接口",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "commentid",
+                        "name": "commentid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {}
+                }
+            }
+        },
+        "/post": {
+            "get": {
+                "security": [
+                    {
+                        "JWTAuth": []
+                    }
+                ],
+                "description": "获取当前所有文章",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "post"
+                ],
+                "summary": "发布文章接口",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/data.Post"
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "JWTAuth": []
+                    }
+                ],
+                "description": "通过post模型，更新文章",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "post"
+                ],
+                "summary": "更新文章接口",
+                "parameters": [
+                    {
+                        "description": "Post",
+                        "name": "post",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/data.Post"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {}
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "JWTAuth": []
+                    }
+                ],
+                "description": "通过postModel模型，发布文章",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "post"
+                ],
+                "summary": "发布文章接口",
+                "parameters": [
+                    {
+                        "description": "PostModel",
+                        "name": "post",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/data.PostModel"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/data.Post"
+                        }
+                    }
+                }
+            }
+        },
+        "/post/{postid}": {
+            "get": {
+                "security": [
+                    {
+                        "JWTAuth": []
+                    }
+                ],
+                "description": "通过postid获取文章",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "post"
+                ],
+                "summary": "获取指定文章接口",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "postid",
+                        "name": "postid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/data.Post"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "JWTAuth": []
+                    }
+                ],
+                "description": "通过postid删除文章",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "post"
+                ],
+                "summary": "删除指定文章id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "postid",
+                        "name": "postid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/data.Post"
+                        }
+                    }
+                }
+            }
+        },
+        "/post/{postid}/comments": {
+            "get": {
+                "security": [
+                    {
+                        "JWTAuth": []
+                    }
+                ],
+                "description": "通过postid获取文章",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "post"
+                ],
+                "summary": "获取指定文章接口",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "postid",
+                        "name": "postid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/data.Comment"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/token": {
+            "put": {
+                "security": [
+                    {
+                        "JWTAuth": []
+                    }
+                ],
+                "description": "通过RefreshToken，更新AccessToken",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "更新Token接口",
+                "responses": {
+                    "200": {}
+                }
+            },
+            "post": {
+                "description": "通过username和password，获取信息",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "登录接口，获取令牌和用户信息",
+                "parameters": [
+                    {
+                        "description": "User account",
+                        "name": "userInfo",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/data.UserLogin"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/data.UserInfo"
+                        }
+                    }
+                }
+            }
+        },
+        "/user": {
+            "put": {
+                "security": [
+                    {
+                        "JWTAuth": []
+                    }
+                ],
+                "description": "通过user模型，更新用户数据",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "用户信息更新接口",
+                "parameters": [
+                    {
+                        "description": "User",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/data.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/data.User"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "通过email,username和password，注册用户",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "注册接口，用于用户注册",
+                "parameters": [
+                    {
+                        "description": "User Register",
+                        "name": "userRegister",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/data.UserRegister"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/data.User"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/{username}": {
+            "get": {
+                "security": [
+                    {
+                        "JWTAuth": []
+                    }
+                ],
+                "description": "通过username查询用户",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "用户信息接口id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "username",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/data.User"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/{username}/comments": {
+            "get": {
+                "security": [
+                    {
+                        "JWTAuth": []
+                    }
+                ],
+                "description": "通过username获取评论",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "comment"
+                ],
+                "summary": "获取用户评论接口",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "username",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/data.Comment"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "data.Comment": {
+            "type": "object",
+            "required": [
+                "body"
+            ],
+            "properties": {
+                "body": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "post_id": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "data.Post": {
+            "type": "object",
+            "required": [
+                "body",
+                "user_id"
+            ],
+            "properties": {
+                "body": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "data.PostModel": {
+            "type": "object",
+            "required": [
+                "body",
+                "user_id"
+            ],
+            "properties": {
+                "body": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "data.User": {
+            "type": "object",
+            "required": [
+                "password",
+                "username"
+            ],
+            "properties": {
+                "aboutMe": {
+                    "type": "string"
+                },
+                "avatarHash": {
+                    "type": "string"
+                },
+                "confirmed": {
+                    "type": "boolean"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "followed": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/data.User"
+                    }
+                },
+                "followers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/data.User"
+                    }
+                },
+                "id": {
+                    "type": "string"
+                },
+                "location": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "posts": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/data.Post"
+                    }
+                },
+                "roleID": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "data.UserInfo": {
+            "type": "object",
+            "properties": {
+                "aboutMe": {
+                    "type": "string"
+                },
+                "avatarHash": {
+                    "type": "string"
+                },
+                "confirmed": {
+                    "type": "boolean"
+                },
+                "location": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "posts": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/data.Post"
+                    }
+                },
+                "roleID": {
+                    "type": "string"
+                }
+            }
+        },
+        "data.UserLogin": {
+            "type": "object",
+            "required": [
+                "password",
+                "username"
+            ],
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "data.UserRegister": {
+            "type": "object",
+            "required": [
+                "password",
+                "username"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "JWTAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
+}

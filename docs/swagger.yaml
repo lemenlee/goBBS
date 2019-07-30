@@ -1,0 +1,494 @@
+basePath: /api/v1
+definitions:
+  data.Comment:
+    properties:
+      body:
+        type: string
+      createdAt:
+        type: string
+      id:
+        type: string
+      post_id:
+        type: string
+      updatedAt:
+        type: string
+      user_id:
+        type: string
+    required:
+    - body
+    type: object
+  data.Post:
+    properties:
+      body:
+        type: string
+      createdAt:
+        type: string
+      id:
+        type: string
+      updatedAt:
+        type: string
+      user_id:
+        type: string
+    required:
+    - body
+    - user_id
+    type: object
+  data.PostModel:
+    properties:
+      body:
+        type: string
+      user_id:
+        type: string
+    required:
+    - body
+    - user_id
+    type: object
+  data.User:
+    properties:
+      aboutMe:
+        type: string
+      avatarHash:
+        type: string
+      confirmed:
+        type: boolean
+      createdAt:
+        type: string
+      email:
+        type: string
+      followed:
+        items:
+          $ref: '#/definitions/data.User'
+        type: array
+      followers:
+        items:
+          $ref: '#/definitions/data.User'
+        type: array
+      id:
+        type: string
+      location:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      posts:
+        items:
+          $ref: '#/definitions/data.Post'
+        type: array
+      roleID:
+        type: string
+      updatedAt:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  data.UserInfo:
+    properties:
+      aboutMe:
+        type: string
+      avatarHash:
+        type: string
+      confirmed:
+        type: boolean
+      location:
+        type: string
+      name:
+        type: string
+      posts:
+        items:
+          $ref: '#/definitions/data.Post'
+        type: array
+      roleID:
+        type: string
+    type: object
+  data.UserLogin:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  data.UserRegister:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: This is a sample server BBS server.
+  license: {}
+  title: BBS Example API
+  version: "1.0"
+paths:
+  /comment:
+    post:
+      consumes:
+      - application/json
+      description: 通过comment模型，发布评论
+      parameters:
+      - description: Comment
+        in: body
+        name: post
+        required: true
+        schema:
+          $ref: '#/definitions/data.Comment'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/data.Comment'
+            type: object
+      security:
+      - JWTAuth: []
+      summary: 发布评论接口
+      tags:
+      - comment
+    put:
+      consumes:
+      - application/json
+      description: 通过comment模型，更新评论
+      parameters:
+      - description: Comment
+        in: body
+        name: post
+        required: true
+        schema:
+          $ref: '#/definitions/data.Comment'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/data.Comment'
+            type: object
+      security:
+      - JWTAuth: []
+      summary: 更新评论接口
+      tags:
+      - comment
+  /comment/{commentid}:
+    delete:
+      consumes:
+      - application/json
+      description: 通过commentid，删除评论
+      parameters:
+      - description: commentid
+        in: path
+        name: commentid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200": {}
+      security:
+      - JWTAuth: []
+      summary: 发布评论接口
+      tags:
+      - comment
+    get:
+      consumes:
+      - application/json
+      description: 通过commentid，获取评论
+      parameters:
+      - description: commentid
+        in: path
+        name: commentid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/data.Comment'
+            type: object
+      security:
+      - JWTAuth: []
+      summary: 获取指定评论接口
+      tags:
+      - comment
+  /post:
+    get:
+      description: 获取当前所有文章
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/data.Post'
+            type: array
+      security:
+      - JWTAuth: []
+      summary: 发布文章接口
+      tags:
+      - post
+    post:
+      consumes:
+      - application/json
+      description: 通过postModel模型，发布文章
+      parameters:
+      - description: PostModel
+        in: body
+        name: post
+        required: true
+        schema:
+          $ref: '#/definitions/data.PostModel'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/data.Post'
+            type: object
+      security:
+      - JWTAuth: []
+      summary: 发布文章接口
+      tags:
+      - post
+    put:
+      consumes:
+      - application/json
+      description: 通过post模型，更新文章
+      parameters:
+      - description: Post
+        in: body
+        name: post
+        required: true
+        schema:
+          $ref: '#/definitions/data.Post'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200": {}
+      security:
+      - JWTAuth: []
+      summary: 更新文章接口
+      tags:
+      - post
+  /post/{postid}:
+    delete:
+      description: 通过postid删除文章
+      parameters:
+      - description: postid
+        in: path
+        name: postid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/data.Post'
+            type: object
+      security:
+      - JWTAuth: []
+      summary: 删除指定文章id
+      tags:
+      - post
+    get:
+      description: 通过postid获取文章
+      parameters:
+      - description: postid
+        in: path
+        name: postid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/data.Post'
+            type: object
+      security:
+      - JWTAuth: []
+      summary: 获取指定文章接口
+      tags:
+      - post
+  /post/{postid}/comments:
+    get:
+      description: 通过postid获取文章
+      parameters:
+      - description: postid
+        in: path
+        name: postid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/data.Comment'
+            type: array
+      security:
+      - JWTAuth: []
+      summary: 获取指定文章接口
+      tags:
+      - post
+  /token:
+    post:
+      consumes:
+      - application/json
+      description: 通过username和password，获取信息
+      parameters:
+      - description: User account
+        in: body
+        name: userInfo
+        required: true
+        schema:
+          $ref: '#/definitions/data.UserLogin'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/data.UserInfo'
+            type: object
+      summary: 登录接口，获取令牌和用户信息
+      tags:
+      - auth
+    put:
+      description: 通过RefreshToken，更新AccessToken
+      produces:
+      - application/json
+      responses:
+        "200": {}
+      security:
+      - JWTAuth: []
+      summary: 更新Token接口
+      tags:
+      - auth
+  /user:
+    post:
+      consumes:
+      - application/json
+      description: 通过email,username和password，注册用户
+      parameters:
+      - description: User Register
+        in: body
+        name: userRegister
+        required: true
+        schema:
+          $ref: '#/definitions/data.UserRegister'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/data.User'
+            type: object
+      summary: 注册接口，用于用户注册
+      tags:
+      - user
+    put:
+      consumes:
+      - application/json
+      description: 通过user模型，更新用户数据
+      parameters:
+      - description: User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/data.User'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/data.User'
+            type: object
+      security:
+      - JWTAuth: []
+      summary: 用户信息更新接口
+      tags:
+      - user
+  /user/{username}:
+    get:
+      description: 通过username查询用户
+      parameters:
+      - description: username
+        in: path
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/data.User'
+            type: object
+      security:
+      - JWTAuth: []
+      summary: 用户信息接口id
+      tags:
+      - user
+  /user/{username}/comments:
+    get:
+      description: 通过username获取评论
+      parameters:
+      - description: username
+        in: path
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/data.Comment'
+            type: array
+      security:
+      - JWTAuth: []
+      summary: 获取用户评论接口
+      tags:
+      - comment
+securityDefinitions:
+  JWTAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

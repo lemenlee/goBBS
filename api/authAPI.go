@@ -13,6 +13,15 @@ func TokenRoutes(route *gin.RouterGroup) {
 	route.PUT("/token", updateAccessToken)
 }
 
+// 登录接口 godoc
+// @Summary 登录接口，获取令牌和用户信息
+// @Description 通过username和password，获取信息
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Param userInfo body data.UserLogin true "User account"
+// @Success 200 {object} data.UserInfo
+// @Router /token [post]
 func getToken(c *gin.Context) {
 	userLogin := data.UserLogin{}
 	err := c.ShouldBindJSON(&userLogin)
@@ -38,6 +47,14 @@ func getToken(c *gin.Context) {
 	}
 }
 
+// 更新Token godoc
+// @Summary 更新Token接口
+// @Description 通过RefreshToken，更新AccessToken
+// @Tags auth
+// @Security JWTAuth
+// @Produce json
+// @Success 200
+// @Router /token [put]
 //UpdateAccessToken 更新token权限
 func updateAccessToken(c *gin.Context) {
 	tokenStr := c.GetHeader("Authorization")

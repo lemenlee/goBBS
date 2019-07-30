@@ -12,8 +12,8 @@ type Comment struct {
 }
 
 type CommentModel struct {
-	UserID string
-	PostID string
+	UserID string `json:"user_id"`
+	PostID string `json:"post_id"`
 	Body   string `gorm:"type:text;not null" validate:"required,min=6"`
 }
 
@@ -78,4 +78,10 @@ func GetAllUserComment(user User) ([]Comment, error) {
 	comments := []Comment{}
 	db := Db.Model(&user).Related(&comments)
 	return comments, db.Error
+}
+
+func CreateTestComment() Comment {
+	comment := Comment{}
+	comment.Body = "this is a fake comment"
+	return comment
 }

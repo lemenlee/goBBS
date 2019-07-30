@@ -70,9 +70,8 @@ func (post *Post) DeletePost() error {
 
 func FindUserAllPost(user User) ([]Post, error) {
 	posts := []Post{}
-	db := Db.Model(&user).Related(&posts)
-
-	return posts, db.Error
+	err := Db.Model(&user).Related(&posts).Error
+	return posts, err
 }
 
 func FindUserPostCount(user User) (int, error) {
