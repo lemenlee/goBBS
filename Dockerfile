@@ -1,9 +1,16 @@
 FROM golang:latest
 
-WORKDIR $GOPATH/src/go_bbs
-COPY . $GOPATH/src/go_bbs
-RUN go get -d -v ./...
-RUN go install -v ./...
 
-EXPOSE 8080
+WORKDIR /go/src/bbs
+
+COPY go.mod .
+COPY go.sum .
+
+RUN go mod download
+
+COPY . .
+
+RUN go build .
+
+EXPOSE 403
 ENTRYPOINT ["./bbs"]

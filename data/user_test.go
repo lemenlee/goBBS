@@ -14,6 +14,7 @@ func TestMain(m *testing.M) {
 }
 
 func setup() {
+	fmt.Println(Db)
 	Db.Delete(&User{})
 	Db.Delete(&Role{})
 	InsertRoles()
