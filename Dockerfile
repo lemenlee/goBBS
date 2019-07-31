@@ -1,6 +1,6 @@
 FROM golang:latest
 
-
+ENV GO111MODULE=on
 WORKDIR /go/src/bbs
 
 COPY go.mod .

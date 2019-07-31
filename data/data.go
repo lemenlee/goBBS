@@ -30,7 +30,7 @@ func (base *Model) BeforeCreate(scope *gorm.Scope) error {
 
 func init() {
 	var err error
-	Db, err = gorm.Open("mysql", "root:soojin206@/bbs_test?charset=utf8&parseTime=True&loc=Local")
+	Db, err = gorm.Open("mysql", "root:soojin206@tcp(0.0.0.0:3307)/bbs_test?charset=utf8&parseTime=True&loc=Local")
 	fmt.Println("open data base")
 	if err != nil {
 		fmt.Printf("data base erorr: %s", err.Error())
