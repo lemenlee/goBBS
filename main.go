@@ -30,7 +30,7 @@ func main() {
 	// docs.SwaggerInfo.Schemes = []string{"http", "https"}
 
 	r := api.SetupRouter()
-	url := ginSwagger.URL("http://localhost:403/swagger/doc.json") // The url pointing to API definition
+	url := ginSwagger.URL("http://lemonlee.net:403/swagger/doc.json") // The url pointing to API definition
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 
 	r.Run(":403")
