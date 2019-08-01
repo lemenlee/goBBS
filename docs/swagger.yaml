@@ -126,7 +126,7 @@ definitions:
     - password
     - username
     type: object
-host: localhost:8080
+host: lemonlee.net:403
 info:
   contact: {}
   description: This is a sample server BBS server.
