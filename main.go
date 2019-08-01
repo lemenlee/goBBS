@@ -13,7 +13,7 @@ import (
 // @version 1.0
 // @description This is a sample server BBS server.
 
-// @host localhost:8080
+// @host localhost:403
 // @BasePath /api/v1
 
 // @securityDefinitions.apikey JWTAuth
